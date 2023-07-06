@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Seasons</title>
+    <link rel="icon" type="image/x-icon" href="https://ia902701.us.archive.org/10/items/android-chrome-512x512_202306/favicon.ico">
+</head>
+<body>
+    <h1>Add Seasons</h1>
+    <form method="POST" action="/add_seasons">
+        <label for="series_id">Series:</label>
+        <select name="series_id" id="series_id">
+            {% for series in series_data %}
+            <option value="{{ series[0] }}">{{ series[1] }}</option>
+            {% endfor %}
+        </select>
+        <br><br><br>
+        
+        <label for="season_number">Season Number:</label>
+        <input type="text" name="season_number" id="season_number" required><br><br>
+        
+        <label for="total_episode">Total Episodes:</label>
+        <input type="number" name="total_episode" id="total_episode" min="1" required onchange="generateEpisodeFields()"><br><br>
+        
+        <div id="episode_fields">
+            <!-- Episode fields will be dynamically generated here -->
+        </div>
+        
+        <input type="submit" value="Add Season">
+    </form>
+    
+    <script>
+        function generateEpisodeFields() {
+            var totalEpisodes = document.getElementById("total_episode").value;
+            var episodeFieldsDiv = document.getElementById("episode_fields");
+            episodeFieldsDiv.innerHTML = "";
+
+            for (var i = 1; i <= totalEpisodes; i++) {
+                var label = document.createElement("label");
+                label.innerHTML = "Episode " + i + " Drive ID:";
+                
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "episode_" + i;
+                input.required = true;
+
+                episodeFieldsDiv.appendChild(label);
+                episodeFieldsDiv.appendChild(input);
+                episodeFieldsDiv.appendChild(document.createElement("br"));
+            }
+        }
+    </script>
+
+<script>
+    // Check if the user is trying to access the "/add_seasons" page
+if (window.location.pathname === '/add_seasons') {
+  var username = prompt("Username:");
+  var password = prompt("Password:");
+
+  // Check if the entered username and password are correct
+  if (username !== "root" || password !== "Filmies@904") {
+    alert("Invalid username or password");
+    window.location.href = "/"; // Redirect to a different page, e.g., homepage
+  }
+}
+
+  </script>
+</body>
+</html>

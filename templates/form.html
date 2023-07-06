@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Query to Telegram Group</title>
+</head>
+<body>
+    <h1>Send Query to Telegram Group</h1>
+    <form method="post" action="/form">
+        <label for="query">Enter your query:</label>
+        <br>
+        <input type="text" id="query" name="query" placeholder="Type your query here" required>
+        <br>
+        <label for="message">Enter a custom message:</label>
+        <br>
+        <input style="display: none;" type="text" id="message" name="message" placeholder="Type your custom message here" value="New Query ">
+        <br>
+        <button type="submit">Send</button>
+    </form>
+</body>
+</html>

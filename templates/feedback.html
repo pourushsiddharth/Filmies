@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/70f40cfb1a.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href="https://ia902701.us.archive.org/10/items/android-chrome-512x512_202306/favicon.ico">
+ 
+    <!-- Material Design  -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+    
+    <style>
+       .logo{
+        width: 100px;
+        margin-bottom: 10px;
+      }
+      @media screen and (max-width: 600px) {
+        .logo{
+          width: 80px;
+        }
+      }
+      .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  z-index: 1;
+  display: none;
+  backdrop-filter: blur(4px);
+  background-color: rgb(34, 34, 34);
+  opacity: 0.9;
+  right: 0;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 5px 10px 5px;
+  text-decoration: none;
+  background-color: rgb(34, 34, 34);
+  color: aliceblue;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(19, 19, 19, 0.5);
+  border-radius: 8px;
+}
+
+div.scrollmenu {
+  background-color: transparent;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+#bg-video {
+  position: relative;
+  opacity: 0.2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+@media screen and (max-width: 600px) {
+  div.scrollmenu {
+    display: none;
+  }
+  .textarea{
+    max-width: 300px;
+    height: 100px;
+}
+}  
+
+.textarea{
+    width: 350px;
+    height: 100px;
+}
+</style>
+</head>
+<header style="background-color: rgb(1, 1, 43); z-index: 99;" class="mdc-top-app-bar">
+  <div class="mdc-top-app-bar__row">
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+      <span class="mdc-top-app-bar__title"><a href="/"><img class="logo" src="https://ia802603.us.archive.org/27/items/filmies-4/Filmies%20%284%29.png"></a></span>
+    </section>
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+      <form class="input-container" style="display: block;" action="{{ url_for('search_movies') }}" method="post">
+        <button name="query" type="submit" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Sci-Fi" title="Search">search</button>
+      </form>
+      <div class="dropdown">
+        <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button dropdown-btn" aria-label="Open menu" title="Menu">more_vert</button>
+        <div class="dropdown-content mdc-card">
+          <a href="/movies"><i class="fa-solid fa-film"></i> Genre</a>
+          <a href="#"><i class="fa-brands fa-amazon"></i> OTT Platforms</a>
+          <a href="#"><i class="fa-solid fa-child"></i> Kids Centre</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+<br><br><br><br>
+<body style="background-color: rgb(1, 1, 43);">
+        <div class="container">
+            <div class="mdc-card">
+                <div style="border: 1px; border-color: gray;" class="row">
+                  <div style="background-color: rgb(1, 1, 32);" class="col-sm-2">
+                    <a href="/watch/{{ movie[15] }}"><img class="card" style="width: 160px; margin: 10px;" src="{{ movie[9] }}" alt=""></a>
+                  </div>
+                  <div style="background-color: rgb(1, 1, 32);" class="col-sm">
+                    <div class="card-header">
+                    <h4 style="padding: 10px; color: aliceblue;" class="card-title">{{ movie[1] }}</h4>
+                    <hr>
+                    <span style="padding: 10px; padding: 10px; color: aliceblue;"><b>In- </b>{{ movie[11] }} ,</span><span style="padding: 10px; padding: 10px; color: aliceblue;"><b>Size: </b>{{ movie[12] }} GB</span>
+                    </div>
+                    <div style="padding: 10px; color: aliceblue;" class="card-body">
+                        <p>{{ movie[2][:300] }}</p>
+                    </div>
+                    <div style="padding-bottom: 20px;">
+                        <form id="feedback-form" method="POST" action="{{ movie[15] }}">
+                            <label>
+                                <input style="display: none; width: 0px;" type="text" name="name" value="Feedback for {{ movie[1] }}">
+                            </label><hr style="color: gray;">
+                                <input style="margin: 10px;" type="checkbox" name="checkbox1" value="Video is not playing"><span style="color: aliceblue;"> Video is not playing</span>
+                            </label><br>
+                            <label>
+                                <input style="margin: 10px;" type="checkbox" name="checkbox2" value="Video is breaking"><span style="color: aliceblue;"> Video is breaking</span>
+                            </label><br>
+                            <label>
+                                <input style="margin: 10px;" type="checkbox" name="checkbox3" value="Video quality is very low"><span style="color: aliceblue;"> Video quality is very low</span>
+                            </label><br><br>
+                            <label>
+                                <textarea class="textarea" style="background-color: rgba(29, 29, 29, 0.849); border-radius: 8px; color: aliceblue; padding: 10px; font-size: 13px;" name="feedback_text" placeholder="Write a feedback for {{ movie[1] }}"></textarea>
+                            </label><br><br>
+                            <!-- <label>
+                                <textarea style="background-color: rgb(19, 19, 19); color: aliceblue; padding: 10px; border-radius: 8px;" name="feedback_text" rows="4" cols="50" placeholder="Write your feedback here about {{ movie[1] }}"></textarea>
+                            </label><br> -->
+                            
+                            <button style="--mdc-theme-primary: #0D47A1;
+                            --mdc-theme-on-primary: aliceblue;" type="submit" class="mdc-button mdc-button--raised mdc-button--leading">
+                                <span class="mdc-button__ripple"></span>
+                                <i class="material-icons mdc-button__icon" aria-hidden="true"
+                                  >check</i>
+                                <span class="mdc-button__label">Submit</span>
+                              </button>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </body>
+</html>

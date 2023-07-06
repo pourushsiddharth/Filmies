@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Movie</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/x-icon" href="https://ia902701.us.archive.org/10/items/android-chrome-512x512_202306/favicon.ico">
+</head>
+<body>
+    <h1>Edit Movie</h1>
+
+    <form action="{{ url_for('update_movie') }}" method="post">
+        <label for="drive_id">Drive ID:</label>
+        <input type="text" name="drive_id" id="drive_id" required>
+
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required>
+
+        <label for="description">Description:</label>
+        <input type="text" name="description" id="description" required>
+
+        <label for="description2">Description 2:</label>
+        <input type="text" name="description2" id="description2" required>
+
+        <label for="release_date">Release Date:</label>
+        <input type="text" name="release_date" id="release_date" required>
+
+        <label for="director">Director:</label>
+        <input type="text" name="director" id="director" required>
+
+        <label for="genre">Genre:</label>
+        <input type="text" name="genre" id="genre" required>
+
+        <label for="watch_url">Watch URL:</label>
+        <input type="text" name="watch_url" id="watch_url" required>
+
+        <label for="poster_url">Poster URL:</label>
+        <input type="text" name="poster_url" id="poster_url" required>
+
+        <label for="movie_audio">Movie Audio:</label>
+        <input type="text" name="movie_audio" id="movie_audio" required>
+
+        <label for="movie_size">Movie Size:</label>
+        <input type="text" name="movie_size" id="movie_size" required>
+
+        <label for="likes">Likes:</label>
+        <input type="number" name="likes" id="likes" required>
+
+        <label for="dislikes">Dislikes:</label>
+        <input type="number" name="dislikes" id="dislikes" required>
+
+        <input type="submit" value="Update Movie">
+        <input type="button" value="Delete Movie" onclick="deleteMovie()">
+    </form>
+
+    <script>
+        function deleteMovie() {
+            var driveId = document.getElementById('drive_id').value;
+            var confirmDelete = confirm("Are you sure you want to delete this movie?");
+
+            if (confirmDelete) {
+                window.location.href = "/delete_movie?drive_id=" + driveId;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genre - Filmies</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/70f40cfb1a.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/c986d9fdc3.js" crossorigin="anonymous"></script>
+ 
+    <!-- Material Design  -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/11.0.0/material-components-web.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.core.min.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Candal&family=Open+Sans&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="https://ia902701.us.archive.org/10/items/android-chrome-512x512_202306/favicon.ico">
+    
+    <style>
+div.scrollmenu {
+  background-color: transparent;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+#bg-video {
+  position: relative;
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.scrollmenu a img {
+  display: block;
+  width: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+@media screen and (max-width: 600px) {
+  div.scrollmenu a img {
+    width: 200px;
+    height: auto;
+  }
+  div.scrollmenu .scrollmenu-arrow.prev {
+  display: none;
+}
+
+div.scrollmenu .scrollmenu-arrow.next {
+  display: none;
+}
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  z-index: 1;
+  display: none;
+  backdrop-filter: blur(4px);
+  background-color: rgb(34, 34, 34);
+  opacity: 0.9;
+  right: 0;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 5px 10px 5px;
+  text-decoration: none;
+  background-color: rgb(34, 34, 34);
+  color: aliceblue;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(19, 19, 19, 0.5);
+  border-radius: 8px;
+}
+
+div.scrollmenu .scrollmenu-arrow {
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  z-index: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+div.scrollmenu .scrollmenu-arrow:hover {
+  background-color: rgba(255, 255, 255);
+  color: rgba(0, 0, 0);
+}
+
+div.scrollmenu .scrollmenu-arrow.prev {
+  left: 10px;
+}
+
+div.scrollmenu .scrollmenu-arrow.next {
+  right: 10px;
+}
+
+</style>
+</head>
+<header style="background-color: rgb(1, 1, 43); z-index: 99;" class="mdc-top-app-bar">
+  <div class="mdc-top-app-bar__row">
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+      <a style="color: aliceblue; text-decoration: none;" href="/"><span class="mdc-top-app-bar__title">Home</span></a>
+    </section>
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+      <form class="input-container" style="display: block;" action="{{ url_for('search_movies') }}" method="post">
+        <button name="query" type="submit" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Sci-Fi" title="Search">search</button>
+      </form>
+      <div class="dropdown">
+        <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button dropdown-btn" aria-label="Open menu" title="Menu">more_vert</button>
+        <div class="dropdown-content mdc-card">
+          <a href="/movies"><i class="fa-solid fa-film fa-beat"></i> Genre</a>
+          <a href="#"><i class="fa-brands fa-amazon"></i> OTT Platforms</a>
+          <a href="#"><i class="fa-solid fa-child"></i> Kids Centre</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+<br><br><br>
+    
+
+<body style="background-color: rgb(1, 1, 43);">
+
+  <div class="container">
+    <div class="scrollmenu">
+      <a href="#" class="scrollmenu-arrow prev">
+        <i class="material-icons">chevron_left</i>
+      </a>
+      <a href="/genre/Fantasy" class="mdc-ripple-surface">
+        <img src="https://ia902606.us.archive.org/19/items/fantasy_20230618_1633/Fantasy.png" alt="">
+      </a>
+      <a href="/genre/Superhero" class="mdc-ripple-surface">
+        <img src="https://ia902708.us.archive.org/27/items/superhero-1/Superhero%20%281%29.png" alt="">
+      </a>
+      <a href="/genre/Sci-Fi" class="mdc-ripple-surface">
+        <img src="https://ia802708.us.archive.org/19/items/sci-fi_202306/sci-fi.png" alt="">
+      </a>
+      <a href="/genre/Horror" class="mdc-ripple-surface">
+        <img src="https://ia902609.us.archive.org/7/items/horror_20230618_1714/horror.png" alt="">
+      </a>
+      <a href="/genre/Crime" class="mdc-ripple-surface">
+        <img src="https://ia902704.us.archive.org/23/items/crime-1/crime%20%281%29.png" alt="">
+      </a>
+      <a href="#" class="scrollmenu-arrow next">
+        <i class="material-icons">chevron_right</i>
+      </a>
+    </div>
+  </div>
+  
+ 
+
+<br>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script>
+  function myFunction(x) {
+  x.classList.toggle("change");
+}
+</script>
+
+<script>
+  // Specify the countdown time in the backend (server-side)
+  var countdownTime = "2023-06-18T18:36:05"; // Replace with your desired countdown time
+
+  var countdownInterval = setInterval(updateCountdown, 1000);
+
+  function updateCountdown() {
+    var now = new Date(); // Current date and time
+    var endDate = new Date(countdownTime);
+    var distance = endDate - now; // Calculate the remaining time
+  
+    // Time calculations for hours, minutes, and seconds
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+    // Display the countdown
+    var countdownElement = document.getElementById('countdown');
+    countdownElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s";
+  
+    // Check if the countdown is finished
+    if (distance < 0) {
+      clearInterval(countdownInterval);
+      countdownElement.innerHTML = "Countdown Finished";
+    }
+  }
+
+
+  function toggleMenu() {
+  const menu = new mdc.menu.MDCMenu(document.getElementById('genre-menu'));
+  menu.open = !menu.open;
+}
+
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/11.0.0/material-components-web.min.js"></script>
+<script>
+  mdc.ripple.MDCRipple.attachTo(document.querySelectorAll('.mdc-ripple-surface'));
+</script>
+
+
+<script>
+  const scrollMenu = document.querySelector('.scrollmenu');
+  const prevArrow = document.querySelector('.scrollmenu-arrow.prev');
+  const nextArrow = document.querySelector('.scrollmenu-arrow.next');
+
+  prevArrow.addEventListener('click', () => {
+    scrollMenu.scrollBy({
+      left: -400, // Adjust this value to control the scroll amount
+      behavior: 'smooth'
+    });
+  });
+
+  nextArrow.addEventListener('click', () => {
+    scrollMenu.scrollBy({
+      left: 400, // Adjust this value to control the scroll amount
+      behavior: 'smooth'
+    });
+  });
+</script>
+
+</body>
+</html>
