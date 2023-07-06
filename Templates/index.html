@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#01012B">
+    <meta name="description" content="Filmies is a test for an OTT Platform. This is just for education purpose. It does not give the feature of uploading or downloading of any movie.">
+    <title>Filmies</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    <link rel="icon" type="image/x-icon" href="https://ia902701.us.archive.org/10/items/android-chrome-512x512_202306/favicon.ico">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/70f40cfb1a.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/c986d9fdc3.js" crossorigin="anonymous"></script>
+ 
+    <!-- Material Design  -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+    
+    <style>
+          #main-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(1, 1, 43, 0);
+      transition: background-color 0.3s ease;
+      z-index: 99;
+    }
+
+    #main-header.opaque {
+      background-color: rgba(1, 1, 43, 1);
+    }
+          .join-telegram-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      background-color: #242424ea;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      z-index: 9999;
+      width: 100%;
+    }
+
+    .join-telegram-container .message {
+      margin-right: 10px;
+      color: aliceblue;
+    }
+
+    .join-telegram-container .button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .join-telegram-container .close-button {
+      font-size: 20px;
+      color: #aaa;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 95%;
+    }
+        .floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    background-color: #007bff;
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .floating-button:hover {
+    background-color: #0056b3;
+  }
+
+  .floating-button:hover::after {
+    content: "Join our telegram channel now to get the latest update, requests and files.";
+    font-family: 'Open Sans', sans-serif;
+    position: absolute;
+    top: -25px;
+    right: 100%;
+    padding: 4px 8px;
+    background-color: #0c203be1;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s;
+    width: 200px;
+    letter-spacing: 0.5px;
+  }
+
+  .floating-button::after {
+    font-weight: 900;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+.details{
+  width: 25%;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 30%;
+  padding: 30px;
+}
+.movie-logo{
+  width: 100%;
+  padding-left: 10px;
+}
+
+/* Common styles */
+.movie-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  overflow: hidden;
+}
+
+.movie-card::after{
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0));
+}
+
+.movie-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie-details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0));
+  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); */
+  padding: 20px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.movie-details h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.movie-details p {
+  font-size: 16px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .movie-card {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .movie-card img {
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .movie-details {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0));
+    padding: 15px;
+  }
+
+  .details{
+    width: 100%;
+  }
+
+  .movie-logo{
+    width: 50%;
+    padding: 10px;
+  }
+
+  .join-telegram-container .button {
+    display: none;
+  }
+
+  .join-telegram-container .message {
+      justify-content: center;
+    }
+
+  .movie-details h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  .movie-details p {
+    font-size: 14px;
+    color: #fff;
+  }
+}
+
+
+
+      .scrollmenu-nav {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   display: flex;
+   align-items: center;
+}
+
+.scrollmenu-btn {
+   background-color: transparent;
+   border: none;
+   outline: none;
+   font-size: 20px;
+   cursor: pointer;
+   padding: 8px;
+   transition: background-color 0.3s;
+}
+
+.scrollmenu-btn:hover {
+   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.scrollmenu-left-btn {
+   margin-right: 8px;
+}
+
+.scrollmenu-right-btn {
+   margin-left: 8px;
+}
+      .logo{
+        width: 100px;
+        margin-bottom: 10px;
+      }
+      @media screen and (max-width: 600px) {
+        .logo{
+          width: 80px;
+        }
+      }
+        
+      
+div.scrollmenu {
+  background-color: transparent;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb{
+  width: 0px;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+#bg-video {
+  position: relative;
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.button-blur {
+  background-color: rgba(54, 54, 54, 0.5);
+  backdrop-filter: blur(1px);
+  color: aliceblue;
+  height: 40px;
+  border-radius: 8px;
+  border: rgba(207, 207, 207, 0.5);
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: center;
+  transition: width 10s;
+  margin-top: 5px;
+}
+
+.button-blur:hover {
+  background-color: rgba(121, 121, 121, 0.5);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  z-index: 1;
+  display: none;
+  backdrop-filter: blur(4px);
+  background-color: rgb(34, 34, 34);
+  opacity: 0.9;
+  right: 0;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 5px 10px 5px;
+  text-decoration: none;
+  background-color: rgb(34, 34, 34);
+  color: aliceblue;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(19, 19, 19, 0.5);
+  border-radius: 8px;
+}
+
+
+
+</style>
+</head>
+<header id="main-header" class="mdc-top-app-bar">
+  <div class="mdc-top-app-bar__row">
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+      <span class="mdc-top-app-bar__title"><a href="/"><img class="logo" src="https://ia802603.us.archive.org/27/items/filmies-4/Filmies%20%284%29.png"></a></span>
+    </section>
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+      <form class="input-container" style="display: block;" action="{{ url_for('search_movies') }}" method="post">
+        <button name="query" type="submit" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Sci-Fi" title="Search">search</button>
+      </form>
+      <div class="dropdown">
+        <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button dropdown-btn" aria-label="Open menu" title="Menu">more_vert</button>
+        <div class="dropdown-content mdc-card">
+          <a href="/movies"><i class="fa-solid fa-film"></i> Genre</a>
+          <a href="#"><i class="fa-brands fa-amazon"></i> OTT Platforms</a>
+          <a href="#"><i class="fa-solid fa-child"></i> Kids Centre</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+
+
+<div id="carousel1" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <a href="/series/13">
+      <div class="movie-card">
+        <img src="https://ia902604.us.archive.org/27/items/dfzbyzzydfenseuqlktifpvtdjs1/dzq83RHwQcnP6WGJ6YkenIqeaa5%5B1%5D.jpg" alt="Movie 1">
+        <div class="movie-details">
+        </div>
+      </div>
+      <div class="details">
+      <img class="movie-logo" src="https://ia902604.us.archive.org/27/items/dfzbyzzydfenseuqlktifpvtdjs1/dfZBYZZYdFeNSeUqLKTiFpvtdJS%5B1%5D.png" alt="">
+    </div>
+    </a>
+    </div>
+    <div class="carousel-item">
+      <a href="/series/10">
+      <div class="movie-card">
+        <img src="https://ia902604.us.archive.org/27/items/dfzbyzzydfenseuqlktifpvtdjs1/jdMiCJqZQn2yyHYZbdUl3btvtGF%5B1%5D.jpg" alt="Movie 1">
+        <div class="movie-details">
+        </div>
+      </div>
+      <div class="details">
+      <img class="movie-logo" src="https://archive.org/download/dfzbyzzydfenseuqlktifpvtdjs1/1522080-t-63dc9d98445f%5B1%5D" alt="">
+      <!-- <p>Description of Movie 1</p> -->
+    </div>
+    </a>
+    </div>
+    <div class="carousel-item">
+      <a href="/series/4">
+      <div class="movie-card">
+        <img src="https://www.themoviedb.org/t/p/original/57clBMPX25NNO6nmDw3TV3zQaQE.jpg" alt="Movie 1">
+        <div class="movie-details">
+        </div>
+      </div>
+      <div class="details">
+      <img class="movie-logo" src="https://archive.org/download/dfzbyzzydfenseuqlktifpvtdjs1/1540301-t-c00389eb40ff%5B2%5D" alt="">
+      <!-- <p>Description of Movie 1</p> -->
+    </div>
+    </a>
+    </div>
+    <div class="carousel-item">
+      <a href="/watch/J6iQLlhlFrX0g9vq8zPT7w==">
+      <div class="movie-card">
+        <img src="https://www.themoviedb.org/t/p/original/uS35KqUfyVm44T15W04bnGUsf0.jpg" alt="Movie 1">
+        <div class="movie-details">
+        </div>
+      </div>
+      <div class="details">
+      <img class="movie-logo" src="https://www.themoviedb.org/t/p/original/oBTuBXr3jHmf534XLiIV0iwZK47.png" alt="">
+      <!-- <p>Description of Movie 1</p> -->
+    </div>
+    </a>
+    </div>
+    <!-- Add more carousel items as needed -->
+  </div>
+</div>
+
+
+<!-- rgb(1, 1, 43) -->
+
+
+<body style="background-color: rgb(1, 1, 43); z-index: 1;">
+  <div class="container">
+    <!-- <h3 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Highly Rated</h3>
+    <div class="row">
+      <div class="col">
+  <div class="scrollmenu">   
+    {% for movie in highly_rated_movies %} 
+      <a href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+      {% endfor %}    
+  </div>
+      </div>
+      <div class="col-sm">
+        <div style="border-color: transparent; background-color: transparent;" class="card d-none d-lg-block">   
+          <h2>Highly Rated</h2>   
+        </div>
+        </div>
+    </div>  -->
+<!-- Series -->
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Series </h5>
+  <div class="scrollmenu">
+   {% for series in series %}
+      <a class="mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>      
+   {% endfor %}
+
+</div>
+
+<!-- Fantasy -->
+<hr style="color: gray;">
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Fantasy <a style="float: right; color: aliceblue;" href="/genre/Fantasy"><i class="fa-solid fa-arrow-right"></i></a></h5>
+<div class="scrollmenu">
+  {% if movies %}
+ {% for movie in movies %}
+  {% if (movie[7] == 'Fantasy' or movie[23] == 'Fantasy' or movie[24] == 'Fantasy' or movie[25] == 'Fantasy') and movie[19] == "no" %}
+    <a class=" mdc-ripple-surface" href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Fantasy' or movie[23] == 'Fantasy' or movie[24] == 'Fantasy' or movie[25] == 'Fantasy' or movie[26] == 'Fantasy') and movie[19] == "yes" %}
+    <a href="/watch2/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Fantasy' or movie[23] == 'Fantasy' or movie[24] == 'Fantasy' or movie[25] == 'Fantasy' or movie[26] == 'Fantasy') and movie[31] == 'yes' %}
+    <a href="https://t.me/filmiesrequest?start=botostore"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+  {% endif %}
+ {% endfor %}
+  {% endif %}
+  {% if series %}
+  {% for series in series %}
+  {% if series[3] == 'Fantasy' or series[10] == 'Fantasy' or series[11] == 'Fantasy' or series[12] == 'Fantasy' or series[13] == 'Fantasy' %}
+    <a class=" mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+  {% endif %}
+  {% endfor %}
+    {% endif %}
+  </div>
+
+
+<!-- Horror -->
+<hr style="color: gray;">
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Horror <a style="float: right; color: aliceblue;" href="/genre/Horror"><i class="fa-solid fa-arrow-right"></i></a></h5>
+<div class="scrollmenu">
+  {% if movies %}
+ {% for movie in movies %}
+  {% if (movie[7] == 'Horror' or movie[23] == 'Horror' or movie[24] == 'Horror' or movie[25] == 'Horror' or movie[26] == 'Horror') and movie[19] == "no" %}
+    <a class=" mdc-ripple-surface" href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Horror' or movie[23] == 'Horror' or movie[24] == 'Horror' or movie[25] == 'Horror' or movie[26] == 'Horror') and movie[19] == "yes" %}
+    <a class=" mdc-ripple-surface" href="/watch2/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Fantasy' or movie[23] == 'Fantasy' or movie[24] == 'Fantasy' or movie[25] == 'Fantasy' or movie[26] == 'Fantasy') and movie[31] == 'yes' %}
+    <a href="https://t.me/filmiesrequest?start=botostore"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+  {% endif %}
+ {% endfor %}
+  {% endif %}
+  {% if series %}
+  {% for series in series %}
+  {% if series[3] == 'Horror' or series[10] == 'Horror' or series[11] == 'Horror' or series[12] == 'Horror' or series[13] == 'Horror' %}
+    <a class=" mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+  {% endif %}
+  {% endfor %}
+    {% endif %}
+
+  </div>
+
+  
+<!-- Action -->
+<hr style="color: gray;">
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Action <a style="float: right; color: aliceblue;" href="/genre/Action"><i class="fa-solid fa-arrow-right"></i></a></h5>
+<div class="scrollmenu">
+  {% if movies %}
+ {% for movie in movies %}
+  {% if (movie[7] == 'Action' or movie[23] == 'Action' or movie[24] == 'Action' or movie[25] == 'Action') and movie[19] == "no" %}
+    <a class=" mdc-ripple-surface" href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Action' or movie[23] == 'Action' or movie[24] == 'Action' or movie[25] == 'Action' or movie[26] == 'Action') and movie[19] == "yes" %}
+    <a class=" mdc-ripple-surface" href="/watch2/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Action' or movie[23] == 'Action' or movie[24] == 'Action' or movie[25] == 'Action' or movie[26] == 'Action') and movie[31] == 'yes' %}
+    <a href="https://t.me/filmiesrequest?start=botostore"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+  {% endif %}
+ {% endfor %}
+  {% endif %}
+  {% if series %}
+  {% for series in series %}
+  {% if (series[3] == 'Action' or series[10] == 'Action' or series[11] == 'Action' or series[12] == 'Action' or series[13] == 'Action') and series[16] == "no" %}
+    <a class=" mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+    {% elif (series[3] == 'Action' or series[10] == 'Action' or series[11] == 'Action' or series[12] == 'Action' or series[13] == 'Action') and series[16] == "yes" %}
+    <a class=" mdc-ripple-surface" href="/series2/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+  {% endif %}
+  {% endfor %}
+    {% endif %}
+
+  </div>
+
+
+<!-- Crime -->
+<hr style="color: gray;">
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Crime <a style="float: right; color: aliceblue;" href="/genre/Crime"><i class="fa-solid fa-arrow-right"></i></a></h5>
+<div class="scrollmenu">
+  {% if movies %}
+ {% for movie in movies %}
+  {% if (movie[7] == 'Crime' or movie[23] == 'Crime' or movie[24] == 'Crime' or movie[25] == 'Crime') and movie[19] == "no" %}
+    <a class=" mdc-ripple-surface" href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Crime' or movie[23] == 'Crime' or movie[24] == 'Crime' or movie[25] == 'Crime' or movie[26] == 'Crime') and movie[19] == "yes" %}
+    <a class=" mdc-ripple-surface" href="/watch2/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Crime' or movie[23] == 'Crime' or movie[24] == 'Crime' or movie[25] == 'Crime' or movie[26] == 'Crime') and movie[31] == 'yes' %}
+    <a href="https://t.me/filmiesrequest?start=botostore"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+  {% endif %}
+ {% endfor %}
+  {% endif %}
+  {% if series %}
+  {% for series in series %}
+  {% if series[3] == 'Crime' or series[10] == 'Crime' or series[11] == 'Crime' or series[12] == 'Crime' or series[13] == 'Crime' %}
+    <a class=" mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+  {% endif %}
+  {% endfor %}
+    {% endif %}
+
+  </div>
+
+<!-- Drama -->
+<hr style="color: gray;">
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Drama <a style="float: right; color: aliceblue;" href="/genre/Drama"><i class="fa-solid fa-arrow-right"></i></a></h5>
+<div class="scrollmenu">
+  {% if movies %}
+ {% for movie in movies %}
+  {% if (movie[7] == 'Drama' or movie[23] == 'Drama' or movie[24] == 'Drama' or movie[25] == 'Drama') and movie[19] == "no" %}
+    <a class=" mdc-ripple-surface" href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Drama' or movie[23] == 'Drama' or movie[24] == 'Drama' or movie[25] == 'Drama' or movie[26] == 'Drama') and movie[19] == "yes" %}
+    <a class=" mdc-ripple-surface" href="/watch2/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Drama' or movie[23] == 'Drama' or movie[24] == 'Drama' or movie[25] == 'Drama' or movie[26] == 'Drama') and movie[31] == 'yes' %}
+    <a href="https://t.me/filmiesrequest?start=botostore"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+  {% endif %}
+ {% endfor %}
+  {% endif %}
+  {% if series %}
+  {% for series in series %}
+  {% if series[3] == 'Drama' or series[10] == 'Drama' or series[11] == 'Drama' or series[12] == 'Drama' or series[13] == 'Drama' %}
+    <a class=" mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+  {% endif %}
+  {% endfor %}
+    {% endif %}
+
+  </div>
+
+<!-- Superhero -->
+<hr style="color: gray;">
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Superhero <a style="float: right; color: aliceblue;" href="/genre/Superhero"><i class="fa-solid fa-arrow-right"></i></a></h5>
+<div class="scrollmenu">
+  {% if movies %}
+ {% for movie in movies %}
+  {% if (movie[7] == 'Superhero' or movie[23] == 'Superhero' or movie[24] == 'Superhero' or movie[25] == 'Superhero') and movie[19] == "no" %}
+    <a class=" mdc-ripple-surface" href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Superhero' or movie[23] == 'Superhero' or movie[24] == 'Superhero' or movie[25] == 'Superhero' or movie[26] == 'Superhero') and movie[19] == "yes" %}
+    <a class=" mdc-ripple-surface" href="/watch2/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Superhero' or movie[23] == 'Superhero' or movie[24] == 'Superhero' or movie[25] == 'Superhero' or movie[26] == 'Superhero') and movie[31] == 'yes' %}
+    <a href="https://t.me/filmiesrequest?start=botostore"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+  {% endif %}
+ {% endfor %}
+  {% endif %}
+  {% if series %}
+  {% for series in series %}
+  {% if series[3] == 'Superhero' or series[10] == 'Superhero' or series[11] == 'Superhero' or series[12] == 'Superhero' or series[13] == 'Superhero' %}
+    <a class=" mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+  {% endif %}
+  {% endfor %}
+    {% endif %}
+
+  </div>
+
+<!-- Sci-Fi -->
+<hr style="color: gray;">
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Sci-Fi <a style="float: right; color: aliceblue;" href="/genre/Sci-Fi"><i class="fa-solid fa-arrow-right"></i></a></h5>
+<div class="scrollmenu">
+  {% if movies %}
+ {% for movie in movies %}
+  {% if (movie[7] == 'Sci-Fi' or movie[23] == 'Sci-Fi' or movie[24] == 'Sci-Fi' or movie[25] == 'Sci-Fi') and movie[19] == "no" %}
+    <a class=" mdc-ripple-surface" href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Sci-Fi' or movie[23] == 'Sci-Fi' or movie[24] == 'Sci-Fi' or movie[25] == 'Sci-Fi' or movie[26] == 'Sci-Fi') and movie[19] == "yes" %}
+    <a class=" mdc-ripple-surface" href="/watch2/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Sci-Fi' or movie[23] == 'Sci-Fi' or movie[24] == 'Sci-Fi' or movie[25] == 'Sci-Fi' or movie[26] == 'Sci-Fi') and movie[31] == 'yes' %}
+    <a href="https://t.me/filmiesrequest?start=botostore"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+  {% endif %}
+ {% endfor %}
+  {% endif %}
+  {% if series %}
+  {% for series in series %}
+  {% if series[3] == 'Sci-Fi' or series[10] == 'Sci-Fi' or series[11] == 'Sci-Fi' or series[12] == 'Sci-Fi' or series[13] == 'Sci-Fi' %}
+    <a class=" mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+  {% endif %}
+  {% endfor %}
+    {% endif %}
+
+  </div>
+
+<!-- Romance -->
+<hr style="color: gray;">
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Romantic <a style="float: right; color: aliceblue;" href="/genre/Romance"><i class="fa-solid fa-arrow-right"></i></a></h5>
+<div class="scrollmenu">
+  {% if movies %}
+ {% for movie in movies %}
+  {% if (movie[7] == 'Romance' or movie[23] == 'Romance' or movie[24] == 'Romance' or movie[25] == 'Romance') and movie[19] == "no" and movie[31] == 'no' %}
+    <a class=" mdc-ripple-surface" href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Romance' or movie[23] == 'Romance' or movie[24] == 'Romance' or movie[25] == 'Romance' or movie[26] == 'Romance') and movie[19] == "yes" and movie[31] == 'no' %}
+    <a class=" mdc-ripple-surface" href="/watch2/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Romance' or movie[23] == 'Romance' or movie[24] == 'Romance' or movie[25] == 'Romance' or movie[26] == 'Romance') and movie[31] == 'yes' %}
+    <a href="https://t.me/filmiesrequest?start=botostore"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+  {% endif %}
+ {% endfor %}
+  {% endif %}
+  {% if series %}
+  {% for series in series %}
+  {% if series[3] == 'Romance' or series[10] == 'Romance' or series[11] == 'Romance' or series[12] == 'Romance' or series[13] == 'Romance' %}
+    <a class=" mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+  {% endif %}
+  {% endfor %}
+    {% endif %}
+
+  </div>
+
+<!-- Mystery -->
+<hr style="color: gray;">
+<h5 style="margin: 10px; margin-bottom: 0; color: aliceblue;">Mystery <a style="float: right; color: aliceblue;" href="/genre/Mystery"><i class="fa-solid fa-arrow-right"></i></a></h5>
+<div class="scrollmenu">
+  {% if movies %}
+ {% for movie in movies %}
+  {% if (movie[7] == 'Mystery' or movie[23] == 'Mystery' or movie[24] == 'Mystery' or movie[25] == 'Mystery') and movie[19] == "no" and movie[31] == 'no' %}
+    <a class=" mdc-ripple-surface" href="/watch/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Mystery' or movie[23] == 'Mystery' or movie[24] == 'Mystery' or movie[25] == 'Mystery' or movie[26] == 'Mystery') and movie[19] == "yes" and movie[31] == 'no' %}
+    <a class=" mdc-ripple-surface" href="/watch2/{{ movie[15] }}"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+    {% elif (movie[7] == 'Mystery' or movie[23] == 'Mystery' or movie[24] == 'Mystery' or movie[25] == 'Mystery' or movie[26] == 'Mystery') and movie[31] == 'yes' %}
+    <a href="https://t.me/filmiesrequest?start=botostore"><img style="width: 150px;" class="mdc-card" src="{{ movie[9] }}" alt="{{ movie[1] }}"></a>
+  {% endif %}
+ {% endfor %}
+  {% endif %}
+  {% if series %}
+  {% for series in series %}
+  {% if series[3] == 'Romance' or series[10] == 'Romance' or series[11] == 'Romance' or series[12] == 'Romance' or series[13] == 'Romance' %}
+    <a class=" mdc-ripple-surface" href="/series/{{ series[0] }}"><img style="width: 150px;" class="mdc-card" src="{{ series[8] }}" alt="{{ series[1] }}"></a>
+  {% endif %}
+  {% endfor %}
+    {% endif %}
+
+  </div>
+
+ <div class="join-telegram-container" id="joinTelegramContainer">
+  <a style="text-decoration: none;" href="https://t.me/filmiesrequest">
+    <div class="message"><h6>Wants to get something more?</h6>
+      <p>Here it is, join our telegram channel now to get all the exciting news, updates and requests.</p>
+    </div>
+    </a>
+    <!-- <button class="button">Join</button> -->
+    <span class="close-button" onclick="closeJoinTelegram()">×</span>
+  </div>
+
+  <a style="text-decoration: none;" href="https://t.me/filmiesrequest" class="floating-button"><i class="fa-brands fa-telegram"></i></a>
+
+
+
+
+  <script>
+    function closeJoinTelegram() {
+      var joinTelegramContainer = document.getElementById("joinTelegramContainer");
+      joinTelegramContainer.style.display = "none";
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script>
+  function myFunction(x) {
+  x.classList.toggle("change");
+}
+</script>
+
+<script>
+  // Specify the countdown time in the backend (server-side)
+  var countdownTime = "2023-06-22T20:16:05"; // Replace with your desired countdown time
+
+  var countdownInterval = setInterval(updateCountdown, 1000);
+
+  function updateCountdown() {
+    var now = new Date(); // Current date and time
+    var endDate = new Date(countdownTime);
+    var distance = endDate - now; // Calculate the remaining time
+  
+    // Time calculations for hours, minutes, and seconds
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+    // Display the countdown
+    var countdownElement = document.getElementById('countdown');
+    countdownElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s";
+  
+    // Check if the countdown is finished
+    if (distance < 0) {
+      clearInterval(countdownInterval);
+      countdownElement.innerHTML = "Countdown Finished";
+    }
+  }
+
+
+  function toggleMenu() {
+  const menu = new mdc.menu.MDCMenu(document.getElementById('genre-menu'));
+  menu.open = !menu.open;
+}
+
+
+</script>
+
+<!-- Place the previous code for movie search functionality here -->
+
+<script>
+  // Function to set a cookie value
+  function setCookie(name, value) {
+    document.cookie = `${name}=${value}; path=/`;
+  }
+
+  // Function to get a cookie value
+  function getCookie(name) {
+    const cookieValue = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);
+    return cookieValue ? cookieValue.pop() : '';
+  }
+
+  // Function to track movie searches and update the cookie
+  function trackMovieSearch(movie) {
+    const movieCounter = parseInt(getCookie(movie)) || 0;
+    setCookie(movie, movieCounter + 1);
+  }
+
+  // Function to display the top movies in the webpage
+  function displayTopMovies() {
+    const movies = [
+      // Array of movie objects with properties like 'title', 'image', etc.
+      // Include all movies that should be displayed on the webpage
+    ];
+
+    const topMovies = movies.filter(movie => {
+      const movieCounter = parseInt(getCookie(movie.title)) || 0;
+      return movieCounter >= 5;
+    });
+
+    topMovies.sort((a, b) => {
+      const counterA = parseInt(getCookie(a.title)) || 0;
+      const counterB = parseInt(getCookie(b.title)) || 0;
+      return counterB - counterA;
+    });
+
+    const topMoviesList = document.getElementById('topMoviesList');
+    topMovies.forEach(movie => {
+      const li = document.createElement('li');
+      li.textContent = movie.title;
+      topMoviesList.appendChild(li);
+    });
+  }
+
+  // Call the displayTopMovies function to render the top movies when the page loads
+  displayTopMovies();
+</script>
+
+<script>
+var scrollMenuElement = document.querySelector('.scrollmenu');
+
+scrollMenuElement.addEventListener('mousedown', function(event) {
+  event.preventDefault();
+  var startX = event.clientX;
+  var scrollLeft = scrollMenuElement.scrollLeft;
+
+  scrollMenuElement.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+
+  function onMouseMove(event) {
+    var distance = event.clientX - startX;
+    scrollMenuElement.scrollLeft = scrollLeft - distance;
+  }
+
+  function onMouseUp() {
+    scrollMenuElement.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+});
+
+</script>
+<script>
+  // Get the carousel element
+const carousel = document.querySelector('.carousel');
+
+// Get the carousel items
+const carouselItems = carousel.querySelectorAll('.carousel-item');
+
+// Get the carousel controls
+const prevBtn = carousel.querySelector('.carousel-control.prev');
+const nextBtn = carousel.querySelector('.carousel-control.next');
+
+// Set initial slide index
+let currentSlide = 0;
+
+// Add click event listener to the previous button
+prevBtn.addEventListener('click', () => {
+  if (currentSlide > 0) {
+    currentSlide--;
+    updateSlidePosition();
+  }
+});
+
+// Add click event listener to the next button
+nextBtn.addEventListener('click', () => {
+  if (currentSlide < carouselItems.length - 1) {
+    currentSlide++;
+    updateSlidePosition();
+  }
+});
+
+// Function to update the slide position
+function updateSlidePosition() {
+  const slideWidth = carouselItems[currentSlide].offsetWidth;
+  const translateX = -slideWidth * currentSlide;
+  carousel.querySelector('.carousel-inner').style.transform = `translateX(${translateX}px)`;
+}
+
+</script>
+<script>
+  window.addEventListener("scroll", function() {
+    var header = document.getElementById("main-header");
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var isMobile = window.innerWidth <= 768; // Adjust the breakpoint as needed
+    var scrollThreshold = isMobile ? 100 : 500;
+
+    if (scrollTop >= scrollThreshold) {
+      header.classList.add("opaque");
+    } else {
+      header.classList.remove("opaque");
+    }
+  });
+</script>
+</body>
+</html>
