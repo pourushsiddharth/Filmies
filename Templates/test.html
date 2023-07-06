@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback Form</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .tick {
+            font-size: 100px;
+            color: green;
+            text-align: center;
+        }
+
+        .message {
+            font-size: 24px;
+            color: green;
+            text-align: center;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('feedback-form');
+            var successMessage = document.getElementById('success-message');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                // Perform AJAX request to send the form data to the server
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/feedback', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        form.classList.add('hidden'); // Hide the form
+                        successMessage.classList.remove('hidden'); // Show the success message
+                    }
+                };
+                var formData = new FormData(form);
+                xhr.send(new URLSearchParams(formData));
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>{{ movie[1] }} Form</h1>
+    <form id="feedback-form" method="POST" action="/feedback">
+        <label>
+            <input type="checkbox" name="checkbox1" value="option1"> Option 1
+        </label><br>
+        <label>
+            <input type="checkbox" name="checkbox2" value="option2"> Option 2
+        </label><br>
+        <label>
+            <input type="checkbox" name="checkbox3" value="option3"> Option 3
+        </label><br>
+        <label>
+            Feedback:
+            <textarea name="feedback_text" rows="4" cols="50"></textarea>
+        </label><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="success-message" class="hidden">
+        <div class="tick">&#10004;</div>
+        <div class="message">Thank you for your feedback!</div>
+    </div>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>About Series</title>
+</head>
+<body>
+    <h1>About Series</h1>
+    
+    <h2>Series Details</h2>
+    <div>
+        <p><strong>Name:</strong> {{ series[1] }}</p>
+        <p><strong>Description:</strong> {{ series[2] }}</p>
+        <p><strong>Poster:</strong> <img src="{{ series[8] }}" alt="{{ series[1] }}"></p>
+        <p><strong>Logo:</strong> <img src="{{ series[6] }}" alt="{{ series[6] }}"></p>
+        <p><strong>Genre:</strong> {{ series[3] }}</p>
+        <p><strong>Director:</strong> {{ series[9] }}</p>
+    </div>
+    
+    <h2>Seasons</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Season Number</th>
+            </tr>
+        </thead>
+         Add a link to the watch_series route here 
+        <tbody>
+            {% for season in seasons %}
+            <tr>
+                <td><a href="{{ url_for('watch_series', name=series[1], season_number=season[2], episode_id=episode[0]) }}">{{ season[2] }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html> -->

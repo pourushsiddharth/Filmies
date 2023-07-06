@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch - {{ series[1] }}</title>
+    <meta name="description" content="{{ series[2][:300] }}">
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+        <!--Font Awesome-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Candal&family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="https://ia902701.us.archive.org/10/items/android-chrome-512x512_202306/favicon.ico">
+
+        <!-- Material Design  -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+        <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+
+        <style>
+          .logo{
+            width: 100px;
+            height: auto;
+          }
+          @media screen and (max-width: 600px) {
+            .logo{
+              width: 70px;
+              height: auto;
+            }
+          }
+             .profile2 {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+
+        .image2 {
+            width: 60px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .content2 {
+          color: aliceblue;
+            padding: 10px;
+            width: 100%;
+        }
+          .profile {
+            display: flex;
+            align-items: center;
+            margin: 10px;
+        }
+
+        .image {
+            width: 60px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .content {
+          color: aliceblue;
+            padding: 10px;
+            width: 100%;
+        }
+                  /* CSS styles for the page */
+        .expandable-div {
+            width: 100%;
+            height: 150px;
+            background-color: rgb(57, 58, 58);
+            transition: height 0.3s ease-in-out;
+            overflow: hidden; 
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: aliceblue;
+        }
+
+        .expandable-div::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+        }
+        .expandable-div.expanded::before {
+            opacity: 1;
+        }
+        .expanded {
+            height: auto;
+        }
+
+            div.scrollmenu {
+              background-color: transparent;
+              overflow: auto;
+              white-space: nowrap;
+            }
+            
+            ::-webkit-scrollbar {
+              width: 10px;
+            }
+            
+            div.scrollmenu a {
+              display: inline-block;
+              color: white;
+              text-align: center;
+              padding: 14px;
+              text-decoration: none;
+            }
+            
+            #bg-video {
+              position: relative;
+              opacity: 0.4;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              z-index: -1;
+            }
+            
+            .button-blur {
+              background-color: rgba(54, 54, 54, 0.5);
+              backdrop-filter: blur(1px);
+              color: aliceblue;
+              height: 40px;
+              border-radius: 8px;
+              border: rgba(207, 207, 207, 0.5);
+              padding-left: 15px;
+              padding-right: 15px;
+              text-align: center;
+              transition: width 10s;
+              margin-top: 5px;
+            }
+            
+            .button-blur:hover {
+              background-color: rgba(121, 121, 121, 0.5);
+            }
+            
+            .dropdown {
+              position: relative;
+              display: inline-block;
+            }
+            
+            .dropdown-content {
+              position: absolute;
+              background-color: #f9f9f9;
+              min-width: 160px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+              padding: 8px;
+              z-index: 1;
+              display: none;
+              backdrop-filter: blur(4px);
+              background-color: rgb(34, 34, 34);
+              opacity: 0.9;
+              right: 0;
+            }
+            
+            .dropdown-content a {
+              display: block;
+              padding: 10px 5px 10px 5px;
+              text-decoration: none;
+              background-color: rgb(34, 34, 34);
+              color: aliceblue;
+            }
+            
+            .dropdown:hover .dropdown-content {
+              display: block;
+            }
+            
+            .dropdown-content a:hover {
+              background-color: rgb(19, 19, 19, 0.5);
+              border-radius: 8px;
+            }
+            
+            .video{
+              width: 100%;
+              height: 415px;
+              border-radius: 8px;
+              border: 2px solid rgb(111, 219, 233);
+            }
+
+            @media screen and (max-width: 600px) {
+                .video{
+                    width: 100%;
+                    height: 300px;
+                    border-radius: 8px;
+                    border: 2px solid rgb(111, 219, 233);
+                }
+            }
+
+            .video-player {
+            position: relative;
+            width: 100%;
+            height: 415px;
+            background-color: black;
+        }
+        @media only screen and (max-width: 600px) {
+            .video-player {
+            position: relative;
+            width: 100%;
+            height: 215px;
+            background-color: black;
+            }
+        }
+        .video-thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            filter: brightness(60%);
+        }
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: blue;
+            border: 2px solid aliceblue;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            filter: brightness(100%);
+        }
+        .play-button::before {
+            content: "";
+            border-style: solid;
+            border-width: 12px 0 12px 20px;
+            border-color: transparent transparent transparent #fff;
+        }
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            flex-wrap: wrap;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        .video-controls button {
+            color: #fff;
+            background-color: transparent;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 0px;
+            transition: background-color 0.3s ease;
+        }
+
+        .video-controls button:hover {
+            
+            background-color: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(1px);
+        }
+
+        .seek-bar-container {
+            width: 100%;
+            height: 3px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .seek-bar-fill {
+            width: 0;
+            height: 100%;
+            background-color: blue;
+            transition: width 0.3s ease;
+        }
+        .seek-bar-container:hover .seek-bar-fill {
+            background-color: lightblue;
+        }
+        .seek-bar-container:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            height: 5px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+            
+            </style>
+         
+         
+<script src="https://kit.fontawesome.com/70f40cfb1a.js" crossorigin="anonymous"></script>  
+ 
+         
+</head>
+
+<body style="background-color: rgb(1, 1, 43);">
+  <header style="background-color: rgb(1, 1, 43); z-index: 99;" class="mdc-top-app-bar">
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <span class="mdc-top-app-bar__title"><a href="/"><img class="logo" src="{{ series[6] }}" alt="{{ series[1] }}"></a></span>
+      </section>
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+        <form class="input-container" style="display: block;" action="{{ url_for('search_movies') }}" method="post">
+          <button name="query" type="submit" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Sci-Fi" title="Search">search</button>
+        </form>
+        <div class="dropdown">
+          <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button dropdown-btn" aria-label="Open menu" title="Menu">more_vert</button>
+          <div class="dropdown-content mdc-card">
+            <a href="/movies"><i class="fa-solid fa-film"></i> Genre</a>
+            <a href="#"><i class="fa-brands fa-amazon"></i> OTT Platforms</a>
+            <a href="#"><i class="fa-solid fa-child"></i> Kids Centre</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </header>
+  <br><br><br>
+    <div class="row">
+        <div class="col-sm-1">&nbsp;</div>
+        <div style="width: 100%;" class="col-sm">
+
+            <div style="height: auto; background-color: rgb(1, 1, 43);" class="card">
+          <div class="video-player">
+            <div class="video-thumbnail" style="background-image: url('{{ series[17] }}');">
+            </div>
+            <div class="play-button" id="play-button"></div>
+            <video width="100%" height="100%" id="my-video" style="display: none;">
+                <source src="{{ episode[2] }}" type="video/mp4">
+            </video>
+            <div class="video-controls" id="video-controls">
+                <button id="play-pause-button"><i class="material-icons">play_arrow</i></button>
+                <button title="Full Screen" id="fullscreen-button"><i class="material-icons">fullscreen</i></button>
+                <button title="Volume" id="sound-button"><i class="material-icons">volume_up</i></button>
+                <button title="Jump to Interval" id="jump-half-button"><i class="material-icons">fast_forward</i></button>
+                <div class="seek-bar-container" id="seek-bar-container">
+                    <div class="seek-bar-fill" id="seek-bar-fill"></div>
+                </div>
+                <div style="font-size: 12px; margin-top: 5px;" id="current-time"></div>
+                <div style="font-size: 12px; margin-top: 5px;" id="total-time"></div>
+            </div>
+        </div>
+        </div>
+
+            <div class="profile">
+              <img src="{{ series[8] }}" alt="Image" class="image">
+              <div class="content">
+                  <!-- Content of the div -->
+                  <h5>Episode {{ episode[3] }}   
+                    <div style="float: right; font-size: 15px;">
+                    {% if previous_episode_id %}
+                  <a title="Previous" style="color: aliceblue;" href="/watch_series2/{{ series[0] }}/{{ season[2] }}/{{ episode[3] - 1 }}"><span class="material-symbols-outlined">
+                    skip_previous
+                    </span></a>
+              {% endif %}
+              {% if next_episode_id %}
+                  <a title="Next" style="color: aliceblue;" href="/watch_series2/{{ series[0] }}/{{ season[2] }}/{{ episode[3] + 1 }}"><span class="material-symbols-outlined">
+                    skip_next
+                    </span></a>
+              {% endif %}
+              </div></h5>
+                  <p style="font-size: 14px;">{{ series[1] }} <br>
+                  <span style="font-size: 14px;">Season {{ season[2] }}</span></p>
+
+                
+              </div>
+            </div>
+
+            <!-- Description Box -->
+            <div id="expandableDiv" class="expandable-div">
+              <p>{{ series[2] }} <hr>
+                <h5>All episodes in Season {{ season[2] }}</h5>
+        
+                <div class="scrollmenu">
+                {% for e in episodes %}
+                <a style="border: 2px solid #333; background-color: #1f1f1f; backdrop-filter: blur(1px);" class="card" href="/watch_series2/{{ series[0] }}/{{ season[2] }}/{{ e[3] }}">{{ e[3] }}</a>
+                {% endfor %}
+                </div>
+              </p>
+            </div>
+            <br>
+            
+            
+        </div>
+        
+        <div class="col-sm-4">
+            <div style="background-color: #010f2b;" class="card">
+            <div style="padding: 10px;" class="container">
+                <p style="color: aliceblue;">More series like {{ series[1] }}</p>
+              
+                {% for current_series in current_series %}
+                  <a style="color: aliceblue; text-decoration: none;" href="/series/{{ current_series[0] }}">
+                    <div class="profile2">
+                  <img src="{{ current_series[8] }}" alt="Image" class="image2">
+                  <div class="content2">
+                      <!-- Content of the div -->
+                      <h6>{{ current_series[1] }}</h6>
+                      <small style="font-size: 12px;"><span>{{ current_series[3] }}</span> | <span>{{ current_series[5] }}</span></small> 
+                      <p style="font-size: 12px;">By {{ current_series[9] }}</p>                  
+                  </div>
+                  </div>
+                  </a>
+                  <br>
+                {% endfor %}
+           
+            </div>
+            </div>
+        </div>
+        <div class="col-sm-1">&nbsp;</div>
+    </div>
+
+   
+
+
+
+
+        <script>
+          // JavaScript code to handle the click event and increase the height of the div
+          document.addEventListener("DOMContentLoaded", function() {
+              var div = document.getElementById("expandableDiv");
+              var isExpanded = false;
+  
+              div.addEventListener("click", function() {
+                  if (!isExpanded) {
+                      div.style.height = "auto";
+                      isExpanded = true;
+                  } else {
+                      div.style.height = "200px";
+                      isExpanded = false;
+                  }
+              });
+          });
+      </script>
+
+  <!-- ...existing code... -->
+
+  <script>
+
+    const floatingButton = document.getElementById('floating-button');
+    const fabMain = document.getElementById('fab-main');
+    const fabOptions = document.getElementById('fab-options');
+  
+    let isOpen = false;
+  
+    fabMain.addEventListener('click', function() {
+      if (isOpen) {
+        fabOptions.style.display = 'none';
+        fabMain.classList.remove('fab-rotate');
+        isOpen = false;
+      } else {
+        fabOptions.style.display = 'block';
+        fabMain.classList.add('fab-rotate');
+        isOpen = true;
+      }
+    });
+  </script>
+
+
+ 
+<script>
+  const videoPlayer = document.querySelector('.video-player');
+  const videoThumbnail = document.querySelector('.video-thumbnail');
+  const playButton = document.getElementById('play-button');
+  const video = document.getElementById('my-video');
+  const playPauseButton = document.getElementById('play-pause-button');
+  const fullscreenButton = document.getElementById('fullscreen-button');
+  const qualityMenu = document.getElementById('quality-menu');
+  const audioButton = document.getElementById('audio-button');
+  const soundButton = document.getElementById('sound-button');
+  const seekBarContainer = document.getElementById('seek-bar-container');
+  const seekBarFill = document.getElementById('seek-bar-fill');
+  const videoControls = document.getElementById('video-controls');
+  let controlsTimeout;
+
+  playButton.addEventListener('click', togglePlayPause);
+  playPauseButton.addEventListener('click', togglePlayPause);
+  fullscreenButton.addEventListener('click', toggleFullscreen);
+  soundButton.addEventListener('click', toggleSound);
+  seekBarContainer.addEventListener('click', seekToPosition);
+
+  videoPlayer.addEventListener('mouseenter', showControls);
+  videoPlayer.addEventListener('mouseleave', hideControls);
+
+  function playVideo() {
+      video.style.display = 'block';
+      videoThumbnail.style.display = 'none';
+      playButton.style.display = 'none';
+      video.play();
+  }
+
+  playButton.addEventListener('click', togglePlayPause);
+  video.addEventListener('click', togglePlayPause);
+  function togglePlayPause() {
+      if (video.paused) {
+          video.style.display = 'block';
+          videoThumbnail.style.display = 'none';
+          playButton.style.display = 'none';
+          video.play();
+          playPauseButton.innerHTML = '<i class="material-icons">pause</i>';
+      } else {
+          video.pause();
+          playPauseButton.innerHTML = '<i class="material-icons">play_arrow</i>';
+      }
+  }
+
+  function toggleFullscreen() {
+      if (video.requestFullscreen) {
+          video.requestFullscreen();
+      } else if (video.mozRequestFullScreen) {
+          video.mozRequestFullScreen();
+      } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
+      }
+  }
+
+  qualityMenu.addEventListener('click', changeQuality);
+
+  function changeQuality(event) {
+      const selectedQuality = event.target.getAttribute('data-src');
+      video.src = selectedQuality;
+      video.play();
+  }
+
+
+  function toggleSound() {
+      if (soundButton.innerHTML === '<i class="material-icons">volume_up</i>') {
+          video.muted = true;
+          soundButton.innerHTML = '<i class="material-icons">volume_off</i>';
+      } else {
+          video.muted = false;
+          soundButton.innerHTML = '<i class="material-icons">volume_up</i>';
+      }
+  }
+
+  const jumpHalfButton = document.getElementById('jump-half-button');
+  jumpHalfButton.addEventListener('click', jumpToHalf);
+
+  function jumpToHalf() {
+      const halfTime = video.duration / 2;
+      video.currentTime = halfTime;
+  }
+
+  function seekToPosition(e) {
+      const seekBarWidth = seekBarContainer.clientWidth;
+      const clickPosition = e.offsetX;
+      const duration = video.duration;
+      const seekTime = (clickPosition / seekBarWidth) * duration;
+      video.currentTime = seekTime;
+  }
+
+  function showControls() {
+      clearTimeout(controlsTimeout);
+      videoControls.style.opacity = '1';
+  }
+
+  function hideControls() {
+      clearTimeout(controlsTimeout);
+      controlsTimeout = setTimeout(function () {
+          videoControls.style.opacity = '0';
+      }, 1000);
+  }
+
+  const currentTimeElement = document.getElementById('current-time');
+  const totalTimeElement = document.getElementById('total-time');
+
+  video.addEventListener('loadedmetadata', function () {
+      const duration = video.duration;
+      const minutes = Math.floor(duration / 60);
+      const seconds = Math.floor(duration % 60);
+      const totalTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      totalTimeElement.innerText = totalTime;
+  });
+
+  video.addEventListener('timeupdate', function () {
+      const currentTime = video.currentTime;
+      const minutes = Math.floor(currentTime / 60);
+      const seconds = Math.floor(currentTime % 60);
+      const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      currentTimeElement.innerText = formattedTime;
+
+      const seekBarWidth = seekBarContainer.clientWidth;
+      const duration = video.duration;
+      const progressBarWidth = (currentTime / duration) * seekBarWidth;
+      seekBarFill.style.width = `${progressBarWidth}px`;
+  });
+
+  // Initialize video
+  video.load();
+
+  
+</script>
+        
+<script>
+    document.getElementById('play-button').addEventListener('click', function() {
+  // Start the timer
+  setTimeout(showCard, 10000);
+});
+
+function showCard() {
+  // Show the card
+  document.getElementById('card').style.display = 'block';
+  // Example usage: Call this function after clicking a button or any event that triggers the card to appear.
+showCardWithBounce();
+}
+
+document.getElementById('close-button').addEventListener('click', function() {
+  // Hide the card when the close button is clicked
+  document.getElementById('card').style.display = 'none';
+});
+
+</script>
+  
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var video = document.getElementById("my-video");
+      var errorCard = document.getElementById("error-card");
+      var errorTimeout;
+  
+      video.addEventListener("loadedmetadata", function() {
+        // If video metadata is loaded successfully, clear the timeout
+        clearTimeout(errorTimeout);
+      });
+  
+      video.addEventListener("error", function() {
+        // If the video fails to load, show the error card after 10 seconds
+        errorTimeout = setTimeout(function() {
+          errorCard.style.display = "block";
+        }, 10000);
+      });
+    });
+</script>
+</body>
+</html>

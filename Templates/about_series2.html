@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch - {{ series[1] }}</title>
+    <meta name="description" content="{{ series[2][:300] }}">
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+        <!--Font Awesome-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Candal&family=Open+Sans&display=swap" rel="stylesheet">
+
+        <link rel="icon" type="image/x-icon" href="https://ia902701.us.archive.org/10/items/android-chrome-512x512_202306/favicon.ico">
+
+        <!-- Material Design  -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+        <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+        <style>
+           .logo{
+            width: 100px;
+            height: auto;
+          }
+          @media screen and (max-width: 600px) {
+            .logo{
+              width: 70px;
+              height: auto;
+            }
+          }
+            div.scrollmenu {
+              background-color: transparent;
+              overflow: auto;
+              white-space: nowrap;
+            }
+            
+            ::-webkit-scrollbar {
+              width: 10px;
+            }
+            
+            div.scrollmenu a {
+              display: inline-block;
+              color: white;
+              text-align: center;
+              padding: 14px;
+              text-decoration: none;
+            }
+            
+            #bg-video {
+              position: relative;
+              opacity: 0.4;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              z-index: -1;
+            }
+            
+            .button-blur {
+              background-color: rgba(54, 54, 54, 0.5);
+              backdrop-filter: blur(1px);
+              color: aliceblue;
+              height: 40px;
+              border-radius: 8px;
+              border: rgba(207, 207, 207, 0.5);
+              padding-left: 15px;
+              padding-right: 15px;
+              text-align: center;
+              transition: width 10s;
+              margin-top: 5px;
+            }
+            
+            .button-blur:hover {
+              background-color: rgba(121, 121, 121, 0.5);
+            }
+            
+            .dropdown {
+              position: relative;
+              display: inline-block;
+            }
+            
+            .dropdown-content {
+              position: absolute;
+              background-color: #f9f9f9;
+              min-width: 160px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+              padding: 8px;
+              z-index: 1;
+              display: none;
+              backdrop-filter: blur(4px);
+              background-color: rgb(34, 34, 34);
+              opacity: 0.9;
+            }
+            
+            .dropdown-content a {
+              display: block;
+              padding: 10px 5px 10px 5px;
+              text-decoration: none;
+              background-color: rgb(34, 34, 34);
+              color: aliceblue;
+            }
+            
+            .dropdown:hover .dropdown-content {
+              display: block;
+            }
+            
+            .dropdown-content a:hover {
+              background-color: rgb(19, 19, 19, 0.5);
+              border-radius: 8px;
+            }
+            
+            
+            
+        </style>
+         
+         
+<script src="https://kit.fontawesome.com/70f40cfb1a.js" crossorigin="anonymous"></script>     
+         
+</head>
+<header style="background-color: rgb(1, 1, 43); z-index: 99;" class="mdc-top-app-bar">
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <span class="mdc-top-app-bar__title"><a href="/"><img class="logo" src="{{ series[6] }}" alt="{{ series[1] }}"></a></span>
+      </section>
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+        <form class="input-container" style="display: block;" action="{{ url_for('search_movies') }}" method="post">
+          <button name="query" type="submit" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Sci-Fi" title="Search">search</button>
+        </form>
+        <div class="dropdown">
+          <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button dropdown-btn" aria-label="Open menu" title="Menu">more_vert</button>
+          <div class="dropdown-content mdc-card">
+            <a href="/movies"><i class="fa-solid fa-film"></i> Genre</a>
+            <a href="#"><i class="fa-brands fa-amazon"></i> OTT Platforms</a>
+            <a href="#"><i class="fa-solid fa-child"></i> Kids Centre</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </header>
+<br><br><br>
+<body style="background-color: rgb(1, 1, 43);">
+
+    <div class="container">
+        <div class="mdc-card">
+            <div style="border: 1px; border-color: gray;" class="row">
+              <div style="background-color: rgb(1, 1, 32);" class="col-sm-2">
+                <img class="card" style="width: 160px; margin: 10px;" src="{{ series[8] }}" alt="">
+              </div>
+              <div style="background-color: rgb(1, 1, 32);" class="col-sm">
+                <div class="card-header">
+                <h4 style="padding: 10px; color: aliceblue;" class="card-title">{{ series[1] }}</h4>
+                <hr>
+                <span style="padding: 10px; padding: 10px; color: aliceblue; font-size: 12px;"><b>In- </b>{{ series[3] }} ,</span><span style="padding: 10px; padding: 10px; color: aliceblue; font-size: 12px;"><b>By: </b>{{ series[9] }}, </span>
+                <a style="color: aliceblue; text-decoration: none; font-family: 'Open Sans', sans-serif; font-size: 12px; padding: 10px;" href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa-solid fa-play"></i> Play Trailer</a>
+                </div>
+                <div style="padding: 10px; color: aliceblue; font-family: 'Open Sans', sans-serif; letter-spacing: 0.4px; font-size: 14px;" class="card-body">
+                  <small style="color: aliceblue; font-size: 12px;">{{ series[5] }}</small>
+                    <p>{{ series[2] }}</p>
+                </div>
+                
+                <div class="scrollmenu">
+                    {% for season in seasons %}
+                    <a style="border: 2px solid #333; background-color: #2e2e2e; backdrop-filter: blur(1px);" href="/watch_series2/{{ series[0] }}/{{ season[2] }}/1" class="card">Season {{ season[2] }}</a>
+                    {% endfor %}
+                </div>
+                <br><br>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{ series[4] }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!-- Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Countdown -->
+<script>
+    // Specify the countdown time in the backend (server-side)
+    var countdownTime = "2023-06-22T00:16:05"; // Replace with your desired countdown time
+  
+    var countdownInterval = setInterval(updateCountdown, 1000);
+  
+    function updateCountdown() {
+      var now = new Date(); // Current date and time
+      var endDate = new Date(countdownTime);
+      var distance = endDate - now; // Calculate the remaining time
+    
+      // Time calculations for hours, minutes, and seconds
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+      // Display the countdown
+      var countdownElement = document.getElementById('countdown');
+      countdownElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s";
+    
+      // Check if the countdown is finished
+      if (distance < 0) {
+        clearInterval(countdownInterval);
+        countdownElement.innerHTML = "Over";
+      }
+    }
+  
+  
+    function toggleMenu() {
+    const menu = new mdc.menu.MDCMenu(document.getElementById('genre-menu'));
+    menu.open = !menu.open;
+  }
+  
+  
+  </script>
+</body>
+</html>
