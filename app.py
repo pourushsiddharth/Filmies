@@ -675,4 +675,4 @@ def dmca():
     return render_template('dmca.html')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5006)
+    app.run(debug=True, port=4897)
