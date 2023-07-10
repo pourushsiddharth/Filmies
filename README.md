@@ -16,9 +16,9 @@ Filmies.live is an exciting and user-friendly OTT (Over-The-Top) platform that a
 #### Technologies Used
 <b>Filmies.live is built using the following technologies:</b>
 
-<b>HTML:</b> The backbone of the platform, ensuring the structure and layout of the website.
-<b>Python:</b> Powering the backend logic and server-side processing.
-<b>Flask:</b> A lightweight and efficient web framework for Python, enabling smooth interactions and dynamic content.
+<b>HTML:</b> The backbone of the platform, ensuring the structure and layout of the website.<br>
+<b>Python:</b> Powering the backend logic and server-side processing.<br>
+<b>Flask:</b> A lightweight and efficient web framework for Python, enabling smooth interactions and dynamic content.<br><br>
 ### Getting Started
 To access Filmies.live, simply visit <a href="https://filmies.live">filmies.live</a> using your preferred web browser. No account creation or login is required to start streaming movies immediately.
 
